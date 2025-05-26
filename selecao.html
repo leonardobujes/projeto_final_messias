@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estruturas de Seleção - Python</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        .container { width: 80%; margin: auto; overflow: hidden; padding: 0 20px; }
+        header { background: #333; color: #fff; padding-top: 30px; min-height: 70px; border-bottom: #0779e4 3px solid; }
+        header a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 16px; }
+        header ul { padding: 0; margin: 0; list-style: none; overflow: hidden; }
+        header #branding { float: left; }
+        header #branding h1 { margin: 0; }
+        header nav { float: right; margin-top: 10px; }
+        header .highlight, header .current a { color: #0779e4; font-weight: bold; }
+        header a:hover { color: #ccc; font-weight: bold; }
+        header li { float: left; display: inline; padding: 0 20px 0 20px; }
+        .main-content { padding: 20px; background: #fff; margin-top: 20px; }
+        .main-content h2 { color: #333; border-bottom: 2px solid #0779e4; padding-bottom: 10px; }
+        .main-content h3 { color: #555; margin-top: 30px; }
+        pre { background: #eee; padding: 10px; border: 1px solid #ddd; overflow-x: auto; }
+        code { font-family: 'Courier New', Courier, monospace; }
+        section { margin-bottom: 30px; padding-bottom: 20px; }
+        footer { padding: 20px; margin-top: 20px; color: #ffffff; background-color: #333; text-align: center; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Fundamentos</span> de Python</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li class="current"><a href="selecao.html">Seleção</a></li>
+                    <li><a href="repeticao.html">Repetição</a></li>
+                    <li><a href="vetores_matrizes.html">Vetores/Matrizes</a></li>
+                    <li><a href="funcoes_procedimentos.html">Funções</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <section id="selecao-content">
+            <h2>Estruturas de Seleção</h2>
+            <h3>Conceito</h3>
+            <p>As estruturas de seleção (ou condicionais) permitem que um programa execute diferentes blocos de código dependendo se uma determinada condição é verdadeira ou falsa. As principais em Python são <code>if</code>, <code>elif</code> (else if) e <code>else</code>.</p>
+            <h3>Aplicação</h3>
+            <p>São usadas para tomar decisões no código. Por exemplo, verificar se um usuário tem permissão para acessar um recurso, determinar se um número é positivo ou negativo, ou reagir a diferentes entradas do usuário.</p>
+            <h3>Exemplo de Código</h3>
+            <pre><code class="language-python">
+idade = 18
+permissao_pais = False
+
+if idade >= 18:
+    print("Pode entrar na festa.")
+elif idade < 18 and permissao_pais:
+    print("Pode entrar na festa com permissão dos pais.")
+else:
+    print("Não pode entrar na festa.")
+
+# Saída esperada: Pode entrar na festa.
+            </code></pre>
+        </section>
+    </div>
+
+    <footer>
+        <p>Fundamentos de Programação em Python &copy; 2025</p>
+    </footer>
+</body>
+</html>

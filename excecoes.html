@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratamento de Exceções - Python</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+        header {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding-top: 25px;
+            min-height: 70px;
+            border-bottom: #3498db 4px solid;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header a {
+            color: #ecf0f1;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+        header ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-end;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        header nav {
+            margin-top: 10px;
+        }
+        header .highlight {
+            color: #3498db;
+            font-weight: bold;
+        }
+        header .current a, header a:hover { /* Aplicar estilo ao link atual e ao passar o mouse */
+            color: #3498db;
+            font-weight: bold;
+        }
+        header li {
+            display: inline;
+            padding: 0 15px;
+        }
+        .main-content {
+            padding: 30px 20px;
+            background: #ffffff;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .main-content h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        .main-content h3 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        code.language-python .token.keyword { color: #569cd6; }
+        code.language-python .token.string { color: #ce9178; }
+        code.language-python .token.comment { color: #6a9955; font-style: italic; }
+        code.language-python .token.number { color: #b5cea8; }
+        code.language-python .token.function { color: #dcdcaa; }
+        code.language-python .token.operator { color: #d4d4d4; }
+        code.language-python .token.punctuation { color: #d4d4d4; }
+        code.language-python .token.builtin { color: #4ec9b0; } /* Para built-in exceptions como ValueError */
+        section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        footer {
+            padding: 25px;
+            margin-top: 30px;
+            color: #ecf0f1;
+            background-color: #2c3e50;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .menu-toggle { display: none; color: #ecf0f1; font-size: 24px; cursor: pointer; padding: 10px; }
+        @media (max-width: 768px) {
+            header #branding { float: none; text-align: center; margin-bottom: 10px; }
+            header nav { float: none; text-align: center; }
+            header ul { flex-direction: column; align-items: center; display: none; }
+            header ul.active { display: flex; }
+            header li { padding: 10px 0; width: 100%; }
+            .menu-toggle { display: block; position: absolute; right: 20px; top: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Fundamentos</span> de Python</h1>
+            </div>
+            <span class="menu-toggle" onclick="toggleMenu()">&#9776;</span>
+            <nav>
+                <ul id="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="selecao.html">Seleção</a></li>
+                    <li><a href="repeticao.html">Repetição</a></li>
+                    <li><a href="vetores_matrizes.html">Vetores/Matrizes</a></li>
+                    <li><a href="funcoes_procedimentos.html">Funções</a></li>
+                    <li class="current"><a href="excecoes.html">Exceções</a></li> {/* Marcar como página atual */}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <section id="excecoes-content">
+            <h2>Tratamento de Exceções</h2>
+            <h3>Conceito</h3>
+            <p>Exceções são erros que ocorrem durante a execução de um programa. Python usa um mecanismo de tratamento de exceções com os blocos <code>try</code>, <code>except</code>, <code>else</code> e <code>finally</code> para lidar com esses erros de forma controlada, evitando que o programa pare abruptamente.</p>
+            <ul>
+                <li><strong><code>try</code>:</strong> O bloco de código que pode potencialmente levantar uma exceção é colocado dentro do bloco <code>try</code>.</li>
+                <li><strong><code>except</code>:</strong> Se uma exceção ocorrer no bloco <code>try</code>, o Python procura um bloco <code>except</code> correspondente que possa tratar essa exceção específica. Pode-se ter múltiplos blocos <code>except</code> para diferentes tipos de exceções.</li>
+                <li><strong><code>else</code>:</strong> (Opcional) O bloco <code>else</code> é executado se nenhuma exceção ocorrer no bloco <code>try</code>.</li>
+                <li><strong><code>finally</code>:</strong> (Opcional) O bloco <code>finally</code> é sempre executado, independentemente de uma exceção ter ocorrido ou não. É útil para liberar recursos, como fechar arquivos.</li>
+            </ul>
+
+            <h3>Aplicação</h3>
+            <p>O tratamento de exceções é crucial para criar programas robustos e confiáveis. Ele permite:</p>
+            <ul>
+                <li>Prevenir que o programa "quebre" inesperadamente.</li>
+                <li>Fornecer mensagens de erro amigáveis ao usuário.</li>
+                <li>Lidar com situações imprevistas, como entrada de dados inválida, arquivos não encontrados, problemas de rede, etc.</li>
+                <li>Garantir que operações críticas (como fechar conexões de banco de dados ou arquivos) sejam sempre realizadas, mesmo que ocorram erros.</li>
+            </ul>
+
+            <h3>Exemplo de Código</h3>
+            <pre><code class="language-python">
+<span class="token comment"># Exemplo 1: Lidando com divisão por zero e entrada inválida</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    numerador <span class="token operator">=</span> <span class="token function">int</span><span class="token punctuation">(</span><span class="token function">input</span><span class="token punctuation">(</span><span class="token string">"Digite o numerador: "</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    denominador <span class="token operator">=</span> <span class="token function">int</span><span class="token punctuation">(</span><span class="token function">input</span><span class="token punctuation">(</span><span class="token string">"Digite o denominador: "</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    resultado <span class="token operator">=</span> numerador <span class="token operator">/</span> denominador
+<span class="token keyword">except</span> <span class="token builtin">ValueError</span><span class="token punctuation">:</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Erro: Entrada inválida. Por favor, digite números inteiros."</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> <span class="token builtin">ZeroDivisionError</span><span class="token punctuation">:</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Erro: Não é possível dividir por zero."</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">f"O resultado da divisão é: {resultado}"</span><span class="token punctuation">)</span>
+<span class="token keyword">finally</span><span class="token punctuation">:</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Bloco finally executado (operação de limpeza, por exemplo)."</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Exemplo 2: Lidando com arquivo não encontrado</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"arquivo_inexistente.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> arquivo<span class="token punctuation">:</span>
+        conteudo <span class="token operator">=</span> arquivo<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Conteúdo do arquivo:"</span><span class="token punctuation">,</span> conteudo<span class="token punctuation">)</span>
+<span class="token keyword">except</span> <span class="token builtin">FileNotFoundError</span><span class="token punctuation">:</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Erro: O arquivo não foi encontrado."</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> <span class="token builtin">Exception</span> <span class="token keyword">as</span> e<span class="token punctuation">:</span> <span class="token comment"># Captura genérica para outras exceções</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">f"Ocorreu um erro inesperado: {e}"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Possíveis saídas para o Exemplo 1 (dependendo da entrada):</span>
+<span class="token comment"># Se digitar 'dez' para numerador:</span>
+<span class="token comment"># Erro: Entrada inválida. Por favor, digite números inteiros.</span>
+<span class="token comment"># Bloco finally executado (operação de limpeza, por exemplo).</span>
+<span class="token comment">#</span>
+<span class="token comment"># Se digitar 10 para numerador e 0 para denominador:</span>
+<span class="token comment"># Erro: Não é possível dividir por zero.</span>
+<span class="token comment"># Bloco finally executado (operação de limpeza, por exemplo).</span>
+<span class="token comment">#</span>
+<span class="token comment"># Se digitar 10 para numerador e 2 para denominador:</span>
+<span class="token comment"># O resultado da divisão é: 5.0</span>
+<span class="token comment"># Bloco finally executado (operação de limpeza, por exemplo).</span>
+
+<span class="token comment"># Saída para o Exemplo 2:</span>
+<span class="token comment"># Erro: O arquivo não foi encontrado.</span>
+            </code></pre>
+        </section>
+    </div>
+
+    <footer>
+        <p>Fundamentos de Programação em Python &copy; 2025</p>
+    </footer>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
