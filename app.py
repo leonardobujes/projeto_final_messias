@@ -1,17 +1,42 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import csv
 import os
-# Para a integração com a API do Gemini (exemplo)
-import google.generativeai as genai 
+
+# Valores padrão antes de tentar importar e configurar a API do Gemini
+GEMINI_AVAILABLE = False
+gemini_model = None
+
+# Tenta importar e configurar a API do Gemini
+# Isto torna a aplicação mais resiliente caso a biblioteca não esteja instalada
+try:
+    import google.generativeai as genai
+    # Configuração da API do Gemini (exemplo - substitua pela sua chave)
+    # IMPORTANTE: Considere usar variáveis de ambiente para a sua chave API em vez de colocá-la diretamente no código.
+    GOOGLE_API_KEY = os.environ.get('GEMINI_API_KEY') # Exemplo de como carregar de variável de ambiente
+    if not GOOGLE_API_KEY:
+        # Se não estiver na variável de ambiente, use a que está no código, mas avise.
+        GOOGLE_API_KEY = 'AIzaSyBSiM1b-XHivW5_dWep0mokQnC3M-T0nmQ' # A sua chave atual
+        print("AVISO: Chave API do Gemini está no código. Considere usar variáveis de ambiente para maior segurança.")
+
+    if GOOGLE_API_KEY: # Procede apenas se a chave API estiver definida
+        genai.configure(api_key=GOOGLE_API_KEY)
+        gemini_model = genai.GenerativeModel('gemini-1.5-flash-latest') # <--- NOME DO MODELO ALTERADO
+        GEMINI_AVAILABLE = True
+        print("INFO: Módulo Google Generative AI carregado e configurado com o modelo 'gemini-1.5-flash-latest'.")
+    else:
+        print("AVISO: Chave API do Gemini não encontrada. A funcionalidade 'Tirar Dúvidas' usará apenas simulação.")
+        GEMINI_AVAILABLE = False # Garante que está False se a chave não for encontrada
+
+except ImportError:
+    # GEMINI_AVAILABLE já é False, gemini_model já é None
+    print("AVISO: Módulo google.generativeai não encontrado. A funcionalidade 'Tirar Dúvidas' usará apenas simulação.")
+except Exception as e:
+    # GEMINI_AVAILABLE já é False, gemini_model já é None
+    print(f"ERRO: Ocorreu um erro ao configurar a API do Gemini: {e}. A funcionalidade 'Tirar Dúvidas' usará apenas simulação.")
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Necessário para usar flash messages
-
-# Configuração da API do Gemini (exemplo - substitua pela sua chave)
-# Descomente e configure quando estiver pronto para integrar
-GOOGLE_API_KEY = 'AIzaSyBSiM1b-XHivW5_dWep0mokQnC3M-T0nmQ'
-genai.configure(api_key=GOOGLE_API_KEY)
-# model = genai.GenerativeModel('gemini-pro') # Ou outro modelo apropriado
 
 # Caminho para o arquivo CSV do glossário
 CSV_FILE = 'bd_glossario.csv'
@@ -22,13 +47,11 @@ CSV_FILE = 'bd_glossario.csv'
 def carregar_glossario():
     glossario = []
     if not os.path.exists(CSV_FILE):
-        # Se o arquivo não existir, pode optar por criá-lo aqui ou apenas retornar uma lista vazia.
-        # open(CSV_FILE, 'w').close() # Cria um arquivo vazio se não existir
         return glossario
     try:
         with open(CSV_FILE, mode='r', encoding='utf-8', newline='') as file:
             csv_reader = csv.reader(file, delimiter=';')
-            for i, row in enumerate(csv_reader): # Adicionamos 'i' para ter um ID simples
+            for i, row in enumerate(csv_reader): 
                 if len(row) == 2:
                     glossario.append({'id': i, 'termo': row[0].strip(), 'definicao': row[1].strip()})
                 elif len(row) > 0 and not row[0].strip().startswith('#') and any(field.strip() for field in row):
@@ -44,13 +67,12 @@ def salvar_glossario(glossario_data):
     try:
         with open(CSV_FILE, mode='w', encoding='utf-8', newline='') as file:
             csv_writer = csv.writer(file, delimiter=';')
-            # Salvamos apenas o termo e a definição, o 'id' é gerado na leitura.
             for item in glossario_data:
                 csv_writer.writerow([item['termo'], item['definicao']])
-        return True # Indica sucesso
+        return True 
     except Exception as e:
         print(f"Erro ao salvar o arquivo CSV: {e}")
-        return False # Indica falha
+        return False 
 # --- FIM DA LÓGICA DE PERSISTÊNCIA (ITEM 6) ---
 
 # Rota para a página inicial (index.html)
@@ -94,7 +116,7 @@ def equipe():
 # Rota para o glossário (LEITURA)
 @app.route('/glossario')
 def glossario_page():
-    termos_glossario = carregar_glossario() # Lê do CSV
+    termos_glossario = carregar_glossario() 
     return render_template('glossario.html', page_name='glossario', termos=termos_glossario)
 
 # Rota para ADICIONAR termo ao glossário (ESCRITA)
@@ -116,7 +138,7 @@ def adicionar_termo():
 
         termos_glossario.append({'termo': termo.strip(), 'definicao': definicao.strip()})
         
-        if salvar_glossario(termos_glossario): # Salva (reescreve) o CSV
+        if salvar_glossario(termos_glossario): 
             flash('Termo adicionado com sucesso!', 'success')
         else:
             flash('Erro ao salvar o termo.', 'error')
@@ -126,11 +148,9 @@ def adicionar_termo():
 # Rota para ALTERAR termo (ATUALIZAÇÃO)
 @app.route('/glossario/alterar/<int:termo_id>', methods=['GET', 'POST'])
 def alterar_termo(termo_id):
-    termos_glossario = carregar_glossario() # Lê do CSV
+    termos_glossario = carregar_glossario() 
     termo_para_alterar = None
     
-    # Encontra o termo pelo ID (que é o índice na lista ao carregar)
-    # Este ID é temporário para a sessão de carregamento/salvamento
     if 0 <= termo_id < len(termos_glossario):
         termo_para_alterar = termos_glossario[termo_id]
     
@@ -146,34 +166,31 @@ def alterar_termo(termo_id):
             flash('Termo e definição são obrigatórios!', 'error')
             return render_template('alterar_termo.html', page_name='glossario', termo_original=termo_para_alterar, termo_id=termo_id)
 
-        # Verifica se o novo nome do termo (se alterado) já existe em outro item
         for i, item in enumerate(termos_glossario):
             if i != termo_id and item['termo'].lower() == novo_termo_str.lower():
                 flash(f'O termo "{novo_termo_str}" já existe no glossário.', 'warning')
                 return render_template('alterar_termo.html', page_name='glossario', termo_original=termo_para_alterar, termo_id=termo_id)
 
-        # Atualiza o dicionário na lista
         termos_glossario[termo_id]['termo'] = novo_termo_str.strip()
         termos_glossario[termo_id]['definicao'] = nova_definicao.strip()
         
-        if salvar_glossario(termos_glossario): # Salva (reescreve) o CSV
+        if salvar_glossario(termos_glossario): 
             flash('Termo alterado com sucesso!', 'success')
         else:
             flash('Erro ao alterar o termo.', 'error')
         return redirect(url_for('glossario_page'))
 
-    # Método GET: exibir o formulário de alteração
     return render_template('alterar_termo.html', page_name='glossario', termo_original=termo_para_alterar, termo_id=termo_id)
 
 
 # Rota para ELIMINAR termo (EXCLUSÃO)
 @app.route('/glossario/eliminar/<int:termo_id>', methods=['POST'])
 def eliminar_termo(termo_id):
-    termos_glossario = carregar_glossario() # Lê do CSV
+    termos_glossario = carregar_glossario() 
     
     if 0 <= termo_id < len(termos_glossario):
-        del termos_glossario[termo_id] # Remove da lista
-        if salvar_glossario(termos_glossario): # Salva (reescreve) o CSV
+        del termos_glossario[termo_id] 
+        if salvar_glossario(termos_glossario): 
             flash('Termo eliminado com sucesso!', 'success')
         else:
             flash('Erro ao eliminar o termo.', 'error')
@@ -186,35 +203,65 @@ def eliminar_termo(termo_id):
 # Rota para a página "Tirar Dúvidas"
 @app.route('/tirar-duvidas', methods=['GET', 'POST'])
 def tirar_duvidas():
-    resposta_gemini = None
+    resposta_formatada = None 
     pergunta_usuario = ""
     if request.method == 'POST':
         pergunta_usuario = request.form.get('pergunta')
         if pergunta_usuario:
-            try:
-                # --- INÍCIO DA SIMULAÇÃO DA CHAMADA À API DO GEMINI ---
-                # No código real, você faria a chamada à API aqui.
-                # Exemplo:
-                # response = model.generate_content(pergunta_usuario)
-                # resposta_gemini = response.text
-                
-                # Simulação:
-                if "python" in pergunta_usuario.lower():
-                    resposta_gemini = f"Resposta simulada para '{pergunta_usuario}': Python é uma linguagem de programação poderosa e versátil. Para saber mais, consulte a documentação oficial ou as seções deste site."
-                elif "flask" in pergunta_usuario.lower():
-                     resposta_gemini = f"Resposta simulada para '{pergunta_usuario}': Flask é um microframework web para Python. É conhecido pela sua simplicidade."
-                else:
-                    resposta_gemini = f"Resposta simulada para '{pergunta_usuario}': Desculpe, não tenho informações sobre isso no momento. Tente perguntar sobre Python ou Flask."
-                # --- FIM DA SIMULAÇÃO ---
-                flash('Pergunta processada (simulação).', 'info')
-            except Exception as e:
-                resposta_gemini = f"Ocorreu um erro ao processar sua pergunta: {e}"
-                flash('Erro ao processar a pergunta.', 'error')
+            if GEMINI_AVAILABLE and gemini_model:
+                try:
+                    contexto_pergunta = (
+                        "Você é um assistente virtual de um site sobre fundamentos de programação em Python e Flask. "
+                        "Responda à seguinte pergunta do usuário de forma clara e concisa, "
+                        "focando em conceitos de programação, Python ou Flask. "
+                        "Se a pergunta for muito fora do escopo, informe educadamente.\n\n"
+                        f"Pergunta do usuário: {pergunta_usuario}"
+                    )
+                    response = gemini_model.generate_content(contexto_pergunta)
+                    resposta_formatada = response.text 
+                    flash('Resposta gerada pela IA.', 'success')
+                except Exception as e:
+                    resposta_formatada = f"Ocorreu um erro ao contactar a IA: {e}. Usando resposta simulada."
+                    print(f"ERRO API Gemini: {e}") 
+                    resposta_formatada += "\n\n" + simular_resposta_gemini(pergunta_usuario)
+                    flash('Erro ao contactar a IA. Usando simulação.', 'error')
+            else:
+                resposta_formatada = simular_resposta_gemini(pergunta_usuario)
+                if not GEMINI_AVAILABLE:
+                    flash('Pergunta processada (simulação - API não disponível/configurada).', 'info')
+                else: # Caso GEMINI_AVAILABLE seja True mas gemini_model seja None por algum motivo
+                    flash('Pergunta processada (simulação - modelo IA não inicializado).', 'info')
+
         else:
             flash('Por favor, insira uma pergunta.', 'warning')
 
-    return render_template('tirar_duvidas.html', page_name='tirar_duvidas', resposta=resposta_gemini, pergunta_anterior=pergunta_usuario)
+    return render_template('tirar_duvidas.html', page_name='tirar_duvidas', resposta=resposta_formatada, pergunta_anterior=pergunta_usuario)
+
+def simular_resposta_gemini(pergunta_usuario):
+    """Função de simulação para respostas da IA."""
+    pergunta_lower = pergunta_usuario.lower()
+    if "python" in pergunta_lower:
+        return f"Resposta simulada para '{pergunta_usuario}': Python é uma linguagem de programação poderosa e versátil. Para saber mais, consulte a documentação oficial ou as seções deste site."
+    elif "flask" in pergunta_lower:
+         return f"Resposta simulada para '{pergunta_usuario}': Flask é um microframework web para Python. É conhecido pela sua simplicidade."
+    elif "o que é" in pergunta_lower and "api" in pergunta_lower:
+        return f"Resposta simulada para '{pergunta_usuario}': Uma API (Application Programming Interface) é um conjunto de regras e protocolos que permite que diferentes softwares se comuniquem entre si."
+    else:
+        return f"Resposta simulada para '{pergunta_usuario}': Desculpe, não tenho informações sobre isso no momento. Tente perguntar sobre Python, Flask ou conceitos básicos de programação."
 
 
 if __name__ == '__main__':
+    if not os.path.exists(CSV_FILE):
+        try:
+            with open(CSV_FILE, mode='w', encoding='utf-8', newline='') as file:
+                print(f"INFO: Arquivo {CSV_FILE} não encontrado. Um novo arquivo vazio foi criado.")
+        except Exception as e:
+            print(f"AVISO: Não foi possível criar o arquivo {CSV_FILE}: {e}")
+    
+    with app.app_context():
+        print("\n--- Mapa de URLs Registradas ---")
+        print(app.url_map)
+        print("---------------------------------\n")
+
     app.run(host='0.0.0.0', port=5000, debug=True)
+
