@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fundamentos de Python - Início</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
+        /* Mantendo estilos inline por enquanto, mas idealmente mover para style.css */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -135,17 +137,17 @@
     <header>
         <div class="container">
             <div id="branding">
-                <h1><span class="highlight">Fundamentos</span> de Python</h1>
+                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
             </div>
             <span class="menu-toggle" onclick="toggleMenu()">&#9776;</span> <nav>
                 <ul id="nav-links">
-                    <li class="current"><a href="index.html">Início</a></li>
-                    <li><a href="selecao.html">Seleção</a></li>
-                    <li><a href="repeticao.html">Repetição</a></li>
-                    <li><a href="vetores_matrizes.html">Vetores/Matrizes</a></li>
-                    <li><a href="funcoes_procedimentos.html">Funções</a></li>
-                    <li><a href="excecoes.html">Exceções</a></li>
-                    <li><a href="equipe.html">Equipe</a></li>
+                    <li class="current"><a href="{{ url_for('index') }}">Início</a></li>
+                    <li><a href="{{ url_for('selecao') }}">Seleção</a></li>
+                    <li><a href="{{ url_for('repeticao') }}">Repetição</a></li>
+                    <li><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
+                    <li><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
+                    <li><a href="{{ url_for('excecoes') }}">Exceções</a></li>
+                    <li><a href="{{ url_for('equipe') }}">Equipe</a></li>
                 </ul>
             </nav>
         </div>
@@ -175,3 +177,4 @@
     </script>
 </body>
 </html>
+

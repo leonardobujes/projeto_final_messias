@@ -135,12 +135,12 @@
             <span class="menu-toggle" onclick="toggleMenu()">&#9776;</span>
             <nav>
                 <ul id="nav-links">
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="selecao.html">Seleção</a></li>
-                    <li><a href="repeticao.html">Repetição</a></li>
-                    <li><a href="vetores_matrizes.html">Vetores/Matrizes</a></li>
-                    <li><a href="funcoes_procedimentos.html">Funções</a></li>
-                    <li class="current"><a href="excecoes.html">Exceções</a></li> {/* Marcar como página atual */}
+                    <li><a href="{{ url_for(\'index\') }}">Início</a></li>
+                    <li><a href="{{ url_for(\'selecao\') }}">Seleção</a></li>
+                    <li><a href="{{ url_for(\'repeticao\') }}">Repetição</a></li>
+                    <li><a href="{{ url_for(\'vetores_matrizes\') }}">Vetores/Matrizes</a></li>
+                    <li><a href="{{ url_for(\'funcoes_procedimentos\') }}">Funções</a></li>
+                    <li class="current"><a href="{{ url_for(\'excecoes\') }}">Exceções</a></li> {/* Marcar como página atual */}
                 </ul>
             </nav>
         </div>

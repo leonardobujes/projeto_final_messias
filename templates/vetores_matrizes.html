@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funções e Procedimentos - Python</title>
+    <title>Vetores e Matrizes - Python</title>
     <style>
         body { font-family: sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
         .container { width: 80%; margin: auto; overflow: hidden; padding: 0 20px; }
@@ -33,44 +33,57 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="selecao.html">Seleção</a></li>
-                    <li><a href="repeticao.html">Repetição</a></li>
-                    <li><a href="vetores_matrizes.html">Vetores/Matrizes</a></li>
-                    <li class="current"><a href="funcoes_procedimentos.html">Funções</a></li>
+                    <li><a href="{{ url_for(\'index\') }}">Início</a></li>
+                    <li><a href="{{ url_for(\'selecao\') }}">Seleção</a></li>
+                    <li><a href="{{ url_for(\'repeticao\') }}">Repetição</a></li>
+                    <li class="current"><a href="{{ url_for(\'vetores_matrizes\') }}">Vetores/Matrizes</a></li>
+                    <li><a href="{{ url_for(\'funcoes_procedimentos\') }}">Funções</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <div class="container main-content">
-        <section id="funcoes-content">
-            <h2>Funções e Procedimentos</h2>
+        <section id="vetores-content">
+            <h2>Vetores e Matrizes</h2>
             <h3>Conceito</h3>
-            <p>Funções são blocos de código reutilizáveis que realizam uma tarefa específica. Elas podem receber dados de entrada (argumentos/parâmetros) e podem retornar um valor. Em Python, não há uma distinção sintática estrita entre "funções" (que retornam valor) e "procedimentos" (que não retornam valor explícito, retornando <code>None</code> por padrão). Ambos são definidos com a palavra-chave <code>def</code>.</p>
+            <p>Em Python, "vetores" são comumente representados por listas (<code>list</code>), que são coleções ordenadas e mutáveis de itens. "Matrizes" (arrays bidimensionais) podem ser implementadas como listas de listas. Para operações numéricas mais avançadas, bibliotecas como NumPy são frequentemente usadas, oferecendo arrays mais eficientes.</p>
             <h3>Aplicação</h3>
-            <p>São fundamentais para organizar o código, torná-lo mais modular, legível e reutilizável. Evitam a repetição de código e facilitam a manutenção e o teste de programas.</p>
+            <p>Vetores são usados para armazenar coleções de dados, como uma lista de nomes, temperaturas, ou notas. Matrizes são úteis para representar dados tabulares, como planilhas, imagens (pixels), ou sistemas de equações lineares.</p>
             <h3>Exemplo de Código</h3>
             <pre><code class="language-python">
-# Função que retorna um valor (tradicionalmente "função")
-def somar(a, b):
-    """Esta função retorna a soma de dois números."""
-    return a + b
+# Vetor (Lista em Python)
+print("Vetor (Lista):")
+numeros = [10, 20, 30, 40, 50]
+print(f"Primeiro elemento: {numeros[0]}")
+print(f"Último elemento: {numeros[-1]}")
+numeros.append(60)
+print(f"Lista após adicionar 60: {numeros}")
 
-# Função que não retorna um valor explícito (tradicionalmente "procedimento")
-def saudar(nome):
-    """Esta função imprime uma saudação."""
-    print(f"Olá, {nome}!")
-
-# Usando as funções
-resultado_soma = somar(5, 3)
-print(f"O resultado da soma é: {resultado_soma}")
-
-saudar("Mundo")
+# Matriz (Lista de Listas em Python)
+print("\nMatriz (Lista de Listas):")
+matriz = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+print(f"Elemento na linha 1, coluna 2: {matriz[0][1]}") # Linhas e colunas começam em 0
+print("Imprimindo a matriz:")
+for linha in matriz:
+    print(linha)
 
 # Saída esperada:
-# O resultado da soma é: 8
-# Olá, Mundo!
+# Vetor (Lista):
+# Primeiro elemento: 10
+# Último elemento: 50
+# Lista após adicionar 60: [10, 20, 30, 40, 50, 60]
+#
+# Matriz (Lista de Listas):
+# Elemento na linha 1, coluna 2: 2
+# Imprimindo a matriz:
+# [1, 2, 3]
+# [4, 5, 6]
+# [7, 8, 9]
             </code></pre>
         </section>
     </div>

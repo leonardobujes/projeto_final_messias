@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vetores e Matrizes - Python</title>
+    <title>Estruturas de Seleção - Python</title>
     <style>
         body { font-family: sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
         .container { width: 80%; margin: auto; overflow: hidden; padding: 0 20px; }
@@ -33,57 +33,36 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="selecao.html">Seleção</a></li>
-                    <li><a href="repeticao.html">Repetição</a></li>
-                    <li class="current"><a href="vetores_matrizes.html">Vetores/Matrizes</a></li>
-                    <li><a href="funcoes_procedimentos.html">Funções</a></li>
+                    <li><a href="{{ url_for(\'index\') }}">Início</a></li>
+                    <li class="current"><a href="{{ url_for(\'selecao\") }}">Seleção</a></li>
+                    <li><a href="{{ url_for(\'repeticao\') }}">Repetição</a></li>
+                    <li><a href="{{ url_for(\'vetores_matrizes\') }}">Vetores/Matrizes</a></li>
+                    <li><a href="{{ url_for(\'funcoes_procedimentos\') }}">Funções</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <div class="container main-content">
-        <section id="vetores-content">
-            <h2>Vetores e Matrizes</h2>
+        <section id="selecao-content">
+            <h2>Estruturas de Seleção</h2>
             <h3>Conceito</h3>
-            <p>Em Python, "vetores" são comumente representados por listas (<code>list</code>), que são coleções ordenadas e mutáveis de itens. "Matrizes" (arrays bidimensionais) podem ser implementadas como listas de listas. Para operações numéricas mais avançadas, bibliotecas como NumPy são frequentemente usadas, oferecendo arrays mais eficientes.</p>
+            <p>As estruturas de seleção (ou condicionais) permitem que um programa execute diferentes blocos de código dependendo se uma determinada condição é verdadeira ou falsa. As principais em Python são <code>if</code>, <code>elif</code> (else if) e <code>else</code>.</p>
             <h3>Aplicação</h3>
-            <p>Vetores são usados para armazenar coleções de dados, como uma lista de nomes, temperaturas, ou notas. Matrizes são úteis para representar dados tabulares, como planilhas, imagens (pixels), ou sistemas de equações lineares.</p>
+            <p>São usadas para tomar decisões no código. Por exemplo, verificar se um usuário tem permissão para acessar um recurso, determinar se um número é positivo ou negativo, ou reagir a diferentes entradas do usuário.</p>
             <h3>Exemplo de Código</h3>
             <pre><code class="language-python">
-# Vetor (Lista em Python)
-print("Vetor (Lista):")
-numeros = [10, 20, 30, 40, 50]
-print(f"Primeiro elemento: {numeros[0]}")
-print(f"Último elemento: {numeros[-1]}")
-numeros.append(60)
-print(f"Lista após adicionar 60: {numeros}")
+idade = 18
+permissao_pais = False
 
-# Matriz (Lista de Listas em Python)
-print("\nMatriz (Lista de Listas):")
-matriz = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-]
-print(f"Elemento na linha 1, coluna 2: {matriz[0][1]}") # Linhas e colunas começam em 0
-print("Imprimindo a matriz:")
-for linha in matriz:
-    print(linha)
+if idade >= 18:
+    print("Pode entrar na festa.")
+elif idade < 18 and permissao_pais:
+    print("Pode entrar na festa com permissão dos pais.")
+else:
+    print("Não pode entrar na festa.")
 
-# Saída esperada:
-# Vetor (Lista):
-# Primeiro elemento: 10
-# Último elemento: 50
-# Lista após adicionar 60: [10, 20, 30, 40, 50, 60]
-#
-# Matriz (Lista de Listas):
-# Elemento na linha 1, coluna 2: 2
-# Imprimindo a matriz:
-# [1, 2, 3]
-# [4, 5, 6]
-# [7, 8, 9]
+# Saída esperada: Pode entrar na festa.
             </code></pre>
         </section>
     </div>
