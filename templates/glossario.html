@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipe - Fundamentos de Python</title>
+    <title>Glossário - Fundamentos de Python</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -29,19 +29,21 @@
     </header>
 
     <div class="container main-content">
-        <section id="equipe-content">
-            <h2>Nossa Equipe</h2>
-            <div class="team-member">
-                <h3>Messias</h3>
-                <p>Desenvolvedor principal do projeto.</p>
-                <p>Responsável pela estrutura inicial e conteúdo das seções.</p>
-            </div>
-            <div class="team-member">
-                <h3>Leonardo Bujes</h3>
-                <p>Assistente de desenvolvimento.</p>
-                <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página de glossário.</p>
-            </div>
-            </section>
+        <section id="glossario-content">
+            <h2>Glossário de Termos</h2>
+            {% if termos %}
+                <dl>
+                    {% for item in termos %}
+                        <div class="glossary-term">
+                            <dt>{{ item.termo }}</dt>
+                            <dd>{{ item.definicao }}</dd>
+                        </div>
+                    {% endfor %}
+                </dl>
+            {% else %}
+                <p>Nenhum termo encontrado no glossário ou o arquivo não pôde ser carregado. Verifique se o arquivo <code>bd_glossario.csv</code> existe na raiz do projeto e está formatado corretamente.</p>
+            {% endif %}
+        </section>
     </div>
 
     <footer>

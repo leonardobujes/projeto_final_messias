@@ -4,40 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estruturas de Repetição - Python</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
-        .container { width: 80%; margin: auto; overflow: hidden; padding: 0 20px; }
-        header { background: #333; color: #fff; padding-top: 30px; min-height: 70px; border-bottom: #0779e4 3px solid; }
-        header a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 16px; }
-        header ul { padding: 0; margin: 0; list-style: none; overflow: hidden; }
-        header #branding { float: left; }
-        header #branding h1 { margin: 0; }
-        header nav { float: right; margin-top: 10px; }
-        header .highlight, header .current a { color: #0779e4; font-weight: bold; }
-        header a:hover { color: #ccc; font-weight: bold; }
-        header li { float: left; display: inline; padding: 0 20px 0 20px; }
-        .main-content { padding: 20px; background: #fff; margin-top: 20px; }
-        .main-content h2 { color: #333; border-bottom: 2px solid #0779e4; padding-bottom: 10px; }
-        .main-content h3 { color: #555; margin-top: 30px; }
-        pre { background: #eee; padding: 10px; border: 1px solid #ddd; overflow-x: auto; }
-        code { font-family: 'Courier New', Courier, monospace; }
-        section { margin-bottom: 30px; padding-bottom: 20px; }
-        footer { padding: 20px; margin-top: 20px; color: #ffffff; background-color: #333; text-align: center; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
         <div class="container">
             <div id="branding">
-                <h1><span class="highlight">Fundamentos</span> de Python</h1>
+                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
             </div>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
             <nav>
-                <ul>
-                    <li><a href="{{ url_for(\'index\') }}">Início</a></li>
-                    <li><a href="{{ url_for(\'selecao\') }}">Seleção</a></li>
-                    <li class="current"><a href="{{ url_for(\'repeticao\') }}">Repetição</a></li>
-                    <li><a href="{{ url_for(\'vetores_matrizes\') }}">Vetores/Matrizes</a></li>
-                    <li><a href="{{ url_for(\'funcoes_procedimentos\') }}">Funções</a></li>
+                <ul id="nav-links">
+                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
+                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
+                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
+                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
+                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
+                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
+                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
+                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
                 </ul>
             </nav>
         </div>
@@ -52,32 +37,32 @@
             <p>Utilizadas para processar itens em uma lista, ler linhas de um arquivo, repetir uma ação até que uma condição seja satisfeita, ou realizar cálculos que exigem múltiplas iterações.</p>
             <h3>Exemplo de Código</h3>
             <pre><code class="language-python">
-# Exemplo com for
-print("Contagem com for:")
-for i in range(1, 6):  # De 1 a 5
-    print(i)
+<span class="token comment"># Exemplo com for</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Contagem com for:"</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token function">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># De 1 a 5</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
 
-# Exemplo com while
-print("\nContagem com while:")
-contador = 1
-while contador <= 5:
-    print(contador)
-    contador += 1
+<span class="token comment"># Exemplo com while</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"\nContagem com while:"</span><span class="token punctuation">)</span>
+contador <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token keyword">while</span> contador <span class="token operator">&lt;=</span> <span class="token number">5</span><span class="token punctuation">:</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>contador<span class="token punctuation">)</span>
+    contador <span class="token operator">+=</span> <span class="token number">1</span>
 
-# Saída esperada:
-# Contagem com for:
-# 1
-# 2
-# 3
-# 4
-# 5
-#
-# Contagem com while:
-# 1
-# 2
-# 3
-# 4
-# 5
+<span class="token comment"># Saída esperada:</span>
+<span class="token comment"># Contagem com for:</span>
+<span class="token comment"># 1</span>
+<span class="token comment"># 2</span>
+<span class="token comment"># 3</span>
+<span class="token comment"># 4</span>
+<span class="token comment"># 5</span>
+<span class="token comment">#</span>
+<span class="token comment"># Contagem com while:</span>
+<span class="token comment"># 1</span>
+<span class="token comment"># 2</span>
+<span class="token comment"># 3</span>
+<span class="token comment"># 4</span>
+<span class="token comment"># 5</span>
             </code></pre>
         </section>
     </div>
@@ -85,5 +70,11 @@ while contador <= 5:
     <footer>
         <p>Fundamentos de Programação em Python &copy; 2025</p>
     </footer>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

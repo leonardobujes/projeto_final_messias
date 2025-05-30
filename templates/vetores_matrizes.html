@@ -4,40 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vetores e Matrizes - Python</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
-        .container { width: 80%; margin: auto; overflow: hidden; padding: 0 20px; }
-        header { background: #333; color: #fff; padding-top: 30px; min-height: 70px; border-bottom: #0779e4 3px solid; }
-        header a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 16px; }
-        header ul { padding: 0; margin: 0; list-style: none; overflow: hidden; }
-        header #branding { float: left; }
-        header #branding h1 { margin: 0; }
-        header nav { float: right; margin-top: 10px; }
-        header .highlight, header .current a { color: #0779e4; font-weight: bold; }
-        header a:hover { color: #ccc; font-weight: bold; }
-        header li { float: left; display: inline; padding: 0 20px 0 20px; }
-        .main-content { padding: 20px; background: #fff; margin-top: 20px; }
-        .main-content h2 { color: #333; border-bottom: 2px solid #0779e4; padding-bottom: 10px; }
-        .main-content h3 { color: #555; margin-top: 30px; }
-        pre { background: #eee; padding: 10px; border: 1px solid #ddd; overflow-x: auto; }
-        code { font-family: 'Courier New', Courier, monospace; }
-        section { margin-bottom: 30px; padding-bottom: 20px; }
-        footer { padding: 20px; margin-top: 20px; color: #ffffff; background-color: #333; text-align: center; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
         <div class="container">
             <div id="branding">
-                <h1><span class="highlight">Fundamentos</span> de Python</h1>
+                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
             </div>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
             <nav>
-                <ul>
-                    <li><a href="{{ url_for(\'index\') }}">Início</a></li>
-                    <li><a href="{{ url_for(\'selecao\') }}">Seleção</a></li>
-                    <li><a href="{{ url_for(\'repeticao\') }}">Repetição</a></li>
-                    <li class="current"><a href="{{ url_for(\'vetores_matrizes\') }}">Vetores/Matrizes</a></li>
-                    <li><a href="{{ url_for(\'funcoes_procedimentos\') }}">Funções</a></li>
+                <ul id="nav-links">
+                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
+                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
+                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
+                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
+                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
+                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
+                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
+                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
                 </ul>
             </nav>
         </div>
@@ -52,38 +37,38 @@
             <p>Vetores são usados para armazenar coleções de dados, como uma lista de nomes, temperaturas, ou notas. Matrizes são úteis para representar dados tabulares, como planilhas, imagens (pixels), ou sistemas de equações lineares.</p>
             <h3>Exemplo de Código</h3>
             <pre><code class="language-python">
-# Vetor (Lista em Python)
-print("Vetor (Lista):")
-numeros = [10, 20, 30, 40, 50]
-print(f"Primeiro elemento: {numeros[0]}")
-print(f"Último elemento: {numeros[-1]}")
-numeros.append(60)
-print(f"Lista após adicionar 60: {numeros}")
+<span class="token comment"># Vetor (Lista em Python)</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Vetor (Lista):"</span><span class="token punctuation">)</span>
+numeros <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">]</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">f"Primeiro elemento: {numeros[0]}"</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">f"Último elemento: {numeros[-1]}"</span><span class="token punctuation">)</span>
+numeros<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">f"Lista após adicionar 60: {numeros}"</span><span class="token punctuation">)</span>
 
-# Matriz (Lista de Listas em Python)
-print("\nMatriz (Lista de Listas):")
-matriz = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-]
-print(f"Elemento na linha 1, coluna 2: {matriz[0][1]}") # Linhas e colunas começam em 0
-print("Imprimindo a matriz:")
-for linha in matriz:
-    print(linha)
+<span class="token comment"># Matriz (Lista de Listas em Python)</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"\nMatriz (Lista de Listas):"</span><span class="token punctuation">)</span>
+matriz <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span>
+<span class="token punctuation">]</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">f"Elemento na linha 1, coluna 2: {matriz[0][1]}"</span><span class="token punctuation">)</span> <span class="token comment"># Linhas e colunas começam em 0</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Imprimindo a matriz:"</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> linha <span class="token keyword">in</span> matriz<span class="token punctuation">:</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>linha<span class="token punctuation">)</span>
 
-# Saída esperada:
-# Vetor (Lista):
-# Primeiro elemento: 10
-# Último elemento: 50
-# Lista após adicionar 60: [10, 20, 30, 40, 50, 60]
-#
-# Matriz (Lista de Listas):
-# Elemento na linha 1, coluna 2: 2
-# Imprimindo a matriz:
-# [1, 2, 3]
-# [4, 5, 6]
-# [7, 8, 9]
+<span class="token comment"># Saída esperada:</span>
+<span class="token comment"># Vetor (Lista):</span>
+<span class="token comment"># Primeiro elemento: 10</span>
+<span class="token comment"># Último elemento: 50</span>
+<span class="token comment"># Lista após adicionar 60: [10, 20, 30, 40, 50, 60]</span>
+<span class="token comment">#</span>
+<span class="token comment"># Matriz (Lista de Listas):</span>
+<span class="token comment"># Elemento na linha 1, coluna 2: 2</span>
+<span class="token comment"># Imprimindo a matriz:</span>
+<span class="token comment"># [1, 2, 3]</span>
+<span class="token comment"># [4, 5, 6]</span>
+<span class="token comment"># [7, 8, 9]</span>
             </code></pre>
         </section>
     </div>
@@ -91,5 +76,11 @@ for linha in matriz:
     <footer>
         <p>Fundamentos de Programação em Python &copy; 2025</p>
     </footer>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
