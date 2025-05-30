@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipe - Fundamentos de Python</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .team-member a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .team-member a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -21,8 +30,9 @@
                     <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
                     <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
                     <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
+                    <li class="{{ 'current' if page_name == 'tirar_duvidas' else '' }}"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
                     <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
+                    <li class="current"><a href="{{ url_for('equipe') }}">Equipe</a></li>
                 </ul>
             </nav>
         </div>
@@ -35,11 +45,19 @@
                 <h3>Messias</h3>
                 <p>Desenvolvedor principal do projeto.</p>
                 <p>Responsável pela estrutura inicial e conteúdo das seções.</p>
+                <p>
+                    <a href="https://www.linkedin.com/in/seu-perfil-messias" target="_blank">LinkedIn</a> |
+                    <a href="https://github.com/seu-usuario-messias" target="_blank">GitHub</a>
+                    </p>
             </div>
             <div class="team-member">
                 <h3>Leonardo Bujes</h3>
                 <p>Assistente de desenvolvimento.</p>
                 <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página de glossário.</p>
+                 <p>
+                    <a href="https://www.linkedin.com/in/seu-perfil-leonardo" target="_blank">LinkedIn</a> |
+                    <a href="https://github.com/seu-usuario-leonardo" target="_blank">GitHub</a>
+                    </p>
             </div>
             </section>
     </div>

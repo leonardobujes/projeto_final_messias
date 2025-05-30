@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Termo - Glossário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Estilos para formulário de alteração (semelhante ao de adicionar) */
+        .edit-term-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .edit-term-form h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .edit-term-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .edit-term-form input[type="text"],
+        .edit-term-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .edit-term-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .edit-term-form button[type="submit"] {
+            background-color: #5cb85c; /* Verde para salvar alterações */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .edit-term-form button[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+        .edit-term-form .cancel-link {
+            display: inline-block;
+            margin-left: 10px;
+            color: #777;
+            text-decoration: none;
+        }
+        .edit-term-form .cancel-link:hover {
+            text-decoration: underline;
+        }
+        /* Flash messages styling */
+        .flash-messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .flash-messages li {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .flash-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
+            <nav>
+                <ul id="nav-links">
+                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
+                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
+                    <li class="{{ 'current' if page_name == 'tirar_duvidas' else '' }}"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
+                    <li class="current"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
+                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <section id="alterar-termo-content">
+            <h2>Alterar Termo no Glossário</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                    {% for category, message in messages %}
+                        <li class="flash-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            {% if termo_original %}
+            <div class="edit-term-form">
+                <form method="POST" action="{{ url_for('alterar_termo', termo_id=termo_id) }}">
+                    <div>
+                        <label for="termo">Termo:</label>
+                        <input type="text" id="termo" name="termo" value="{{ termo_original.termo }}" required>
+                    </div>
+                    <div>
+                        <label for="definicao">Definição:</label>
+                        <textarea id="definicao" name="definicao" required>{{ termo_original.definicao }}</textarea>
+                    </div>
+                    <button type="submit">Salvar Alterações</button>
+                    <a href="{{ url_for('glossario_page') }}" class="cancel-link">Cancelar</a>
+                </form>
+            </div>
+            {% else %}
+            <p>Termo não encontrado para edição.</p>
+            <a href="{{ url_for('glossario_page') }}">Voltar ao Glossário</a>
+            {% endif %}
+        </section>
+    </div>
+
+    <footer>
+        <p>Fundamentos de Programação em Python &copy; 2025</p>
+    </footer>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

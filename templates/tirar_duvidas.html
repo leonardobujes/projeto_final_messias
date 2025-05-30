@@ -3,74 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossário - Fundamentos de Python</title>
+    <title>Tirar Dúvidas - Fundamentos de Python</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-        /* Estilos adicionais para botões e formulário */
-        .glossary-actions {
-            margin-left: 10px;
-            white-space: nowrap; /* Impede que os botões quebrem linha */
-        }
-        .glossary-actions form {
-            display: inline; /* Para botões de exclusão ficarem na mesma linha */
-        }
-        .glossary-actions .btn {
-            padding: 5px 10px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.9em;
-            margin-left: 5px;
-            cursor: pointer;
-        }
-        .btn-edit {
-            background-color: #f0ad4e;
-            color: white;
-            border: 1px solid #eea236;
-        }
-        .btn-edit:hover {
-            background-color: #ec971f;
-        }
-        .btn-delete {
-            background-color: #d9534f;
-            color: white;
-            border: 1px solid #d43f3a;
-        }
-        .btn-delete:hover {
-            background-color: #c9302c;
-        }
-        .add-term-form {
+        .qa-form {
             background-color: #f9f9f9;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 30px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .add-term-form h3 {
+        .qa-form h3 {
             margin-top: 0;
             color: #2c3e50;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
         }
-        .add-term-form label {
+        .qa-form label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #333;
         }
-        .add-term-form input[type="text"],
-        .add-term-form textarea {
+        .qa-form textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-        }
-        .add-term-form textarea {
-            min-height: 80px;
+            min-height: 100px;
             resize: vertical;
         }
-        .add-term-form button[type="submit"] {
+        .qa-form button[type="submit"] {
             background-color: #3498db;
             color: white;
             padding: 10px 15px;
@@ -79,10 +41,20 @@
             cursor: pointer;
             font-size: 1em;
         }
-        .add-term-form button[type="submit"]:hover {
+        .qa-form button[type="submit"]:hover {
             background-color: #2980b9;
         }
-
+        .gemini-response {
+            background-color: #e9f7fd;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        .gemini-response h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
         /* Flash messages styling */
         .flash-messages {
             list-style-type: none;
@@ -121,7 +93,7 @@
     <header>
         <div class="container">
             <div id="branding">
-                 <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
+                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
             </div>
             <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
             <nav>
@@ -132,7 +104,7 @@
                     <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
                     <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
                     <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'tirar_duvidas' else '' }}"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
+                    <li class="current"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
                     <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
                     <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
                 </ul>
@@ -141,8 +113,9 @@
     </header>
 
     <div class="container main-content">
-        <section id="glossario-content">
-            <h2>Glossário de Termos</h2>
+        <section id="tirar-duvidas-content">
+            <h2>Tire Suas Dúvidas sobre Programação</h2>
+            <p>Faça uma pergunta sobre Python, Flask ou conceitos de programação e tentaremos responder com a ajuda da IA (simulação).</p>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -154,52 +127,30 @@
                 {% endif %}
             {% endwith %}
 
-            <div class="add-term-form">
-                <h3>Adicionar Novo Termo</h3>
-                <form action="{{ url_for('adicionar_termo') }}" method="POST">
+            <div class="qa-form">
+                <form method="POST" action="{{ url_for('tirar_duvidas') }}">
                     <div>
-                        <label for="termo">Termo:</label>
-                        <input type="text" id="termo" name="termo" required>
+                        <label for="pergunta">Sua Pergunta:</label>
+                        <textarea id="pergunta" name="pergunta" rows="4" required>{{ pergunta_anterior if pergunta_anterior }}</textarea>
                     </div>
-                    <div>
-                        <label for="definicao">Definição:</label>
-                        <textarea id="definicao" name="definicao" required></textarea>
-                    </div>
-                    <button type="submit">Adicionar Termo</button>
+                    <button type="submit">Enviar Pergunta</button>
                 </form>
             </div>
 
-            {% if termos %}
-                <dl>
-                    {% for item in termos %}
-                        <div class="glossary-term">
-                            <dt>
-                                {{ item.termo }}
-                                <span class="glossary-actions">
-                                    <a href="{{ url_for('alterar_termo', termo_id=item.id) }}" class="btn btn-edit">Alterar</a>
-                                    <form action="{{ url_for('eliminar_termo', termo_id=item.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja eliminar este termo?');">
-                                        <button type="submit" class="btn btn-delete">Eliminar</button>
-                                    </form>
-                                </span>
-                            </dt>
-                            <dd>{{ item.definicao }}</dd>
-                        </div>
-                    {% else %}
-                        <p>Nenhum termo encontrado no glossário.</p>
-                    {% endfor %}
-                </dl>
-            {% else %}
-                <p>Nenhum termo encontrado no glossário ou o arquivo não pôde ser carregado. Verifique se o arquivo <code>bd_glossario.csv</code> existe na raiz do projeto e está formatado corretamente.</p>
-                <p>Se o arquivo não existir, ele será criado automaticamente ao adicionar o primeiro termo.</p>
+            {% if resposta %}
+            <div class="gemini-response">
+                <h4>Resposta:</h4>
+                <p>{{ resposta }}</p>
+            </div>
             {% endif %}
+
         </section>
     </div>
 
     <footer>
         <p>Fundamentos de Programação em Python &copy; 2025</p>
     </footer>
-
-     <script>
+    <script>
         function toggleMenu() {
             const navLinks = document.getElementById('nav-links');
             navLinks.classList.toggle('active');
