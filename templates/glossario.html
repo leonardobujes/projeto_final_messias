@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossário - Fundamentos de Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+
+{% block title %}Glossário - Fundamentos de Python{% endblock %}
+
+{% block head %}
     <style>
-        /* Estilos adicionais para botões e formulário */
+        /* Estilos adicionais para botões e formulário da página de glossário.
+           Muitos destes podem já estar no style.css principal ou podem ser movidos para lá. */
         .glossary-actions {
             margin-left: 10px;
-            white-space: nowrap; /* Impede que os botões quebrem linha */
+            white-space: nowrap; 
         }
         .glossary-actions form {
-            display: inline; /* Para botões de exclusão ficarem na mesma linha */
+            display: inline; 
         }
         .glossary-actions .btn {
             padding: 5px 10px;
@@ -83,7 +82,7 @@
             background-color: #2980b9;
         }
 
-        /* Flash messages styling */
+        /* Estilos para flash messages (se não estiverem globalmente definidos em style.css) */
         .flash-messages {
             list-style-type: none;
             padding: 0;
@@ -116,94 +115,59 @@
             border: 1px solid #bee5eb;
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                 <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
+{% endblock %}
+
+{% block content %}
+<section id="glossario-content">
+    <h2>Glossário de Termos</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div class="add-term-form">
+        <h3>Adicionar Novo Termo</h3>
+        <form action="{{ url_for('adicionar_termo') }}" method="POST">
+            <div>
+                <label for="termo">Termo:</label>
+                <input type="text" id="termo" name="termo" required>
             </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'tirar_duvidas' else '' }}"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <div class="container main-content">
-        <section id="glossario-content">
-            <h2>Glossário de Termos</h2>
-
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul class="flash-messages">
-                    {% for category, message in messages %}
-                        <li class="flash-{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-
-            <div class="add-term-form">
-                <h3>Adicionar Novo Termo</h3>
-                <form action="{{ url_for('adicionar_termo') }}" method="POST">
-                    <div>
-                        <label for="termo">Termo:</label>
-                        <input type="text" id="termo" name="termo" required>
-                    </div>
-                    <div>
-                        <label for="definicao">Definição:</label>
-                        <textarea id="definicao" name="definicao" required></textarea>
-                    </div>
-                    <button type="submit">Adicionar Termo</button>
-                </form>
+            <div>
+                <label for="definicao">Definição:</label>
+                <textarea id="definicao" name="definicao" required></textarea>
             </div>
-
-            {% if termos %}
-                <dl>
-                    {% for item in termos %}
-                        <div class="glossary-term">
-                            <dt>
-                                {{ item.termo }}
-                                <span class="glossary-actions">
-                                    <a href="{{ url_for('alterar_termo', termo_id=item.id) }}" class="btn btn-edit">Alterar</a>
-                                    <form action="{{ url_for('eliminar_termo', termo_id=item.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja eliminar este termo?');">
-                                        <button type="submit" class="btn btn-delete">Eliminar</button>
-                                    </form>
-                                </span>
-                            </dt>
-                            <dd>{{ item.definicao }}</dd>
-                        </div>
-                    {% else %}
-                        <p>Nenhum termo encontrado no glossário.</p>
-                    {% endfor %}
-                </dl>
-            {% else %}
-                <p>Nenhum termo encontrado no glossário ou o arquivo não pôde ser carregado. Verifique se o arquivo <code>bd_glossario.csv</code> existe na raiz do projeto e está formatado corretamente.</p>
-                <p>Se o arquivo não existir, ele será criado automaticamente ao adicionar o primeiro termo.</p>
-            {% endif %}
-        </section>
+            <button type="submit">Adicionar Termo</button>
+        </form>
     </div>
 
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-
-     <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+    {% if termos %}
+        <dl>
+            {% for item in termos %}
+                <div class="glossary-term">
+                    <dt>
+                        {{ item.termo }}
+                        <span class="glossary-actions">
+                            <a href="{{ url_for('alterar_termo', termo_id=item.id) }}" class="btn btn-edit">Alterar</a>
+                            <form action="{{ url_for('eliminar_termo', termo_id=item.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja eliminar este termo?');">
+                                <button type="submit" class="btn btn-delete">Eliminar</button>
+                            </form>
+                        </span>
+                    </dt>
+                    <dd>{{ item.definicao }}</dd>
+                </div>
+            {% else %}
+                <p>Nenhum termo encontrado no glossário.</p>
+            {% endfor %}
+        </dl>
+    {% else %}
+        <p>Nenhum termo encontrado no glossário ou o arquivo não pôde ser carregado. Verifique se o arquivo <code>bd_glossario.csv</code> existe na raiz do projeto e está formatado corretamente.</p>
+        <p>Se o arquivo não existir, ele será criado automaticamente ao adicionar o primeiro termo.</p>
+    {% endif %}
+</section>
+{% endblock %}

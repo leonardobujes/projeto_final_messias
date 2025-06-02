@@ -1,93 +1,58 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipe - Fundamentos de Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+
+{% block title %}Equipe - Fundamentos de Python{% endblock %}
+
+{% block head %}
     <style>
+        /* Estilos específicos para a página da equipe, se houver.
+           O CSS principal (style.css) já está incluído no base.html */
         .team-member a {
-            color: #3498db;
+            color: #3498db; /* Cor do link específica para esta página */
             text-decoration: none;
         }
         .team-member a:hover {
             text-decoration: underline;
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                 <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'tirar_duvidas' else '' }}"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="current"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{% endblock %}
 
-    <div class="container main-content">
-        <section id="equipe-content">
-            <h2>Nossa Equipe</h2>
-            <div class="team-member">
-                <h3>Leonardo Vinicius Bujes da Silva</h3>
-                <p>Web Developer</p>
-                <p>Responsável pela estrutura inicial e integração a API da Gemini.</p>
-                <p>
-                    <a href="https://www.linkedin.com/in/leonardo-bujes-903343a6" target="_blank">Linkedin</a> |
-                    <a href="https://github.com/leonardobujes" target="_blank">GitHub</a>
-                    </p>
-            </div>
-            <div class="team-member">
-                <h3>Emmanuel Kleber Ramos Pessoa</h3>
-                <p>Web Developer</p>
-                <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página de glossário.</p>
-                 <p>
-                    <a href="https://www.linkedin.com/in/emmanuel-kleber-ramos-pessoa-992a90363/" target="_blank">LinkedIn</a> |
-                    <a href="https://github.com/Kleber1245" target="_blank">GitHub</a>
-                    </p>
-            </div>
-            <div class="team-member">
-                <h3>Thiago Jorge da SIlva</h3>
-                <p>Web Developer</p>
-                <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página de glossário.</p>
-                 <p>
-                    <a href="https://www.linkedin.com/in/thiago-jorge-da-silva-b724a41b8/" target="_blank">LinkedIn</a> |
-                    <a href="https://github.com/ThiagoJDev" target="_blank">GitHub</a>
-                    </p>
-            </div>
-            <div class="team-member">
-                <h3>Ingrid Guedes Rachid</h3>
-                <p>Web Developer</p>
-                <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página da equipe.</p>
-                 <p>
-                    <a href="https://github.com/IngridRachid" target="_blank">GitHub</a>
-                    </p>
-            </div>
-            </section>
+{% block content %}
+<section id="equipe-content">
+    <h2>Nossa Equipe</h2>
+    <div class="team-member">
+        <h3>Leonardo Vinicius Bujes da Silva</h3>
+        <p>Web Developer</p>
+        <p>Responsável pela estrutura inicial e integração a API da Gemini.</p>
+        <p>
+            <a href="https://www.linkedin.com/in/leonardo-bujes-903343a6" target="_blank">Linkedin</a> |
+            <a href="https://github.com/leonardobujes" target="_blank">GitHub</a>
+        </p>
     </div>
-
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-
-     <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+    <div class="team-member">
+        <h3>Emmanuel Kleber Ramos Pessoa</h3>
+        <p>Web Developer</p>
+        <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página de glossário.</p>
+         <p>
+            <a href="https://www.linkedin.com/in/emmanuel-kleber-ramos-pessoa-992a90363/" target="_blank">LinkedIn</a> |
+            <a href="https://github.com/Kleber1245" target="_blank">GitHub</a>
+        </p>
+    </div>
+    <div class="team-member">
+        <h3>Thiago Jorge da SIlva</h3>
+        <p>Assistente de desenvolvimento</p>
+        <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página de glossário.</p>
+         <p>
+            <a href="https://www.linkedin.com/in/thiago-jorge-da-silva-b724a41b8/" target="_blank">LinkedIn</a> |
+            <a href="https://github.com/Kleber1245" target="_blank">GitHub</a>
+        </p>
+    </div>
+    <div class="team-member">
+        <h3>Ingrid Guedes Rachid</h3>
+        <p>Assistente de desenvolvimento</p>
+        <p>Responsável pela refatoração para Flask, ajuste das rotas, criação do CSS unificado e implementação da página da equipe.</p>
+         <p>
+            <a href="https://github.com/IngridRachid" target="_blank">GitHub</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tirar Dúvidas - Fundamentos de Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+
+{% block title %}Tirar Dúvidas - Fundamentos de Python{% endblock %}
+
+{% block head %}
     <style>
+        /* Estilos específicos para a página "Tirar Dúvidas" */
         .qa-form {
             background-color: #f9f9f9;
             padding: 20px;
@@ -55,7 +54,7 @@
             margin-top: 0;
             color: #2c3e50;
         }
-        /* Flash messages styling */
+        /* Estilos para flash messages (se não estiverem globalmente definidos em style.css) */
         .flash-messages {
             list-style-type: none;
             padding: 0;
@@ -88,73 +87,39 @@
             border: 1px solid #bee5eb;
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
+{% endblock %}
+
+{% block content %}
+<section id="tirar-duvidas-content">
+    <h2>Tire Suas Dúvidas sobre Programação</h2>
+    <p>Faça uma pergunta sobre Python, Flask ou conceitos de programação e tentaremos responder com a ajuda da IA (simulação).</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div class="qa-form">
+        <form method="POST" action="{{ url_for('tirar_duvidas') }}">
+            <div>
+                <label for="pergunta">Sua Pergunta:</label>
+                <textarea id="pergunta" name="pergunta" rows="4" required>{{ pergunta_anterior if pergunta_anterior }}</textarea>
             </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="current"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <div class="container main-content">
-        <section id="tirar-duvidas-content">
-            <h2>Tire Suas Dúvidas sobre Programação</h2>
-            <p>Faça uma pergunta sobre Python, Flask ou conceitos de programação e tentaremos responder com a ajuda da IA (simulação).</p>
-
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul class="flash-messages">
-                    {% for category, message in messages %}
-                        <li class="flash-{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-
-            <div class="qa-form">
-                <form method="POST" action="{{ url_for('tirar_duvidas') }}">
-                    <div>
-                        <label for="pergunta">Sua Pergunta:</label>
-                        <textarea id="pergunta" name="pergunta" rows="4" required>{{ pergunta_anterior if pergunta_anterior }}</textarea>
-                    </div>
-                    <button type="submit">Enviar Pergunta</button>
-                </form>
-            </div>
-
-            {% if resposta %}
-            <div class="gemini-response">
-                <h4>Resposta:</h4>
-                <p>{{ resposta }}</p>
-            </div>
-            {% endif %}
-
-        </section>
+            <button type="submit">Enviar Pergunta</button>
+        </form>
     </div>
 
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+    {% if resposta %}
+    <div class="gemini-response">
+        <h4>Resposta:</h4>
+        <p>{{ resposta }}</p>
+    </div>
+    {% endif %}
+
+</section>
+{% endblock %}
