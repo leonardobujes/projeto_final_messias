@@ -12,7 +12,7 @@ body {
     width: 85%;
     max-width: 1200px;
     margin: auto;
-    overflow: hidden;
+    overflow: visible; 
     padding: 0 20px;
 }
 
@@ -23,6 +23,15 @@ header {
     min-height: 70px;
     border-bottom: #3498db 4px solid;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+}
+
+header .container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header a {
@@ -30,31 +39,27 @@ header a {
     text-decoration: none;
     text-transform: uppercase;
     font-size: 16px;
-    padding: 5px 0;
     transition: color 0.3s ease;
+    display: inline-block;
+    padding: 10px 0; /* Padding vertical para links do menu e dropbtn */
 }
 
 header ul {
     padding: 0;
     margin: 0;
     list-style: none;
-    overflow: hidden;
     display: flex;
-    justify-content: flex-end; /* Alinha itens à direita por padrão */
+    align-items: center;
 }
 
 header #branding {
-    float: left; /* Mantém o branding à esquerda */
+    margin-right: auto;
 }
 
 header #branding h1 {
     margin: 0;
-    font-size: 1.8em; /* Ajuste o tamanho conforme necessário */
-    line-height: 1.2; /* Para o caso de duas linhas no título */
-}
-
-header nav {
-    margin-top: 10px; /* Ajuste para alinhar verticalmente com o branding se necessário */
+    font-size: 1.8em;
+    line-height: 1.2;
 }
 
 header .highlight {
@@ -62,15 +67,83 @@ header .highlight {
     font-weight: bold;
 }
 
-header .current a, header a:hover {
+header .current a,
+header a:hover,
+header .current .dropbtn { /* Garante que o dropbtn também fique destacado se for a página atual ou um filho */
     color: #3498db;
     font-weight: bold;
 }
 
 header li {
-    display: inline; /* Mantém os itens na mesma linha */
-    padding: 0 15px; /* Espaçamento entre os itens do menu */
+    position: relative; /* Essencial para o posicionamento absoluto do dropdown-content */
 }
+
+/* Espaçamento para itens de menu que são links diretos ou o botão do dropdown */
+header li > a { /* Aplica-se a links diretos e ao .dropbtn */
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+/* --- ESTILOS DO DROPDOWN --- */
+header .dropbtn {
+    /* Herda a maioria dos estilos de 'header a' */
+    cursor: pointer;
+    background-color: transparent; /* Garante que não haja fundo inesperado */
+    border: none; /* Remove borda caso seja um botão real */
+    outline: none; /* Remove outline ao focar */
+    /* padding já definido por 'header li > a' */
+}
+
+header .dropbtn::after { /* Seta para indicar dropdown */
+    content: ' ▼';
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+header .dropdown-content {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    background-color: #2c3e50;
+    min-width: 220px; /* Ajuste conforme necessário */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000; /* Z-index alto para garantir que fique sobre outros elementos */
+    border-radius: 0 0 5px 5px;
+    border-top: 1px solid #3498db; /* Borda superior para separar do botão */
+    left: 0; /* Alinha com a borda esquerda do <li> pai */
+    top: 100%; /* Posiciona logo abaixo do <li> pai (do .dropbtn) */
+}
+
+/* Classe para mostrar o dropdown via JavaScript */
+header .dropdown-content.show-dropdown {
+    display: block; /* Torna o dropdown visível */
+}
+
+header .dropdown-content a {
+    color: #ecf0f1;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block; /* Faz cada link ocupar a largura total */
+    text-align: left;
+    text-transform: none; /* Subitens geralmente não são uppercase */
+    font-size: 14px;
+    clear: both; /* Garante que não haja problemas de float se houver */
+}
+
+header .dropdown-content a:hover {
+    background-color: #34495e;
+    color: #3498db !important; /* Garante que o hover do link sobrescreva outras cores */
+    font-weight: normal; /* Evita negrito duplo se o pai já tem */
+}
+
+/* Estilo para o item de dropdown ativo (se a página atual for um dos links do dropdown) */
+header .dropdown-content a.current {
+    background-color: #34495e; /* Um pouco diferente para destacar */
+    color: #3498db !important;
+    font-weight: bold;
+}
+/* --- FIM DOS ESTILOS DO DROPDOWN --- */
+
 
 .main-content {
     padding: 30px 20px;
@@ -94,18 +167,17 @@ header li {
 }
 
 pre {
-    background: #2d2d2d; /* Fundo escuro para blocos de código */
-    color: #f8f8f2; /* Texto claro */
+    background: #2d2d2d;
+    color: #f8f8f2;
     padding: 15px;
     border: 1px solid #444;
     border-radius: 5px;
-    overflow-x: auto; /* Barra de rolagem horizontal se o código for muito largo */
+    overflow-x: auto;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 0.95em;
     line-height: 1.5;
 }
 
-/* Syntax highlighting para Python (exemplo básico) */
 code.language-python .token.keyword { color: #569cd6; }
 code.language-python .token.string { color: #ce9178; }
 code.language-python .token.comment { color: #6a9955; font-style: italic; }
@@ -114,7 +186,6 @@ code.language-python .token.function { color: #dcdcaa; }
 code.language-python .token.operator { color: #d4d4d4; }
 code.language-python .token.punctuation { color: #d4d4d4; }
 code.language-python .token.builtin { color: #4ec9b0; }
-
 
 footer {
     padding: 25px;
@@ -125,21 +196,16 @@ footer {
     font-size: 0.9em;
 }
 
-/* Estilos para o botão do menu responsivo e navegação */
 .menu-toggle {
-    display: none; /* Oculto por padrão em telas maiores */
+    display: none;
     color: #ecf0f1;
     font-size: 24px;
     cursor: pointer;
     padding: 10px;
     background: none;
     border: none;
-    position: absolute; /* Para posicionar no canto superior direito */
-    right: 20px;
-    top: 25px; /* Ajuste conforme a altura do seu header */
 }
 
-/* Estilos para a página da equipe */
 .team-member {
     margin-bottom: 20px;
     padding: 15px;
@@ -151,7 +217,6 @@ footer {
     color: #34495e;
 }
 
-/* Estilos para a página de glossário */
 .glossary-term {
     margin-bottom: 20px;
     padding-bottom: 15px;
@@ -167,35 +232,76 @@ footer {
     color: #555;
 }
 
-
-/* Media Query para telas menores (responsividade) */
+/* --- ESTILOS RESPONSIVOS --- */
 @media (max-width: 768px) {
+    header {
+        padding-top: 15px;
+        min-height: auto;
+    }
+    header .container {
+        flex-direction: column;
+        align-items: center;
+    }
     header #branding {
-        float: none;
-        text-align: center;
         margin-bottom: 10px;
+        margin-right: 0;
+        text-align: center;
     }
     header nav {
-        float: none;
-        text-align: center;
+        width: 100%;
     }
-    header ul {
-        flex-direction: column; /* Empilha os itens do menu verticalmente */
-        align-items: center; /* Centraliza os itens do menu */
-        display: none; /* Esconde o menu por padrão em telas pequenas */
+    header ul { /* Menu principal no mobile */
+        flex-direction: column;
+        align-items: center;
+        display: none; /* Escondido por padrão, JS controla com .active */
+        width: 100%;
     }
-    header ul.active {
-        display: flex; /* Mostra o menu quando a classe 'active' é aplicada via JS */
+    header ul.active { /* Quando o menu hambúrguer é clicado */
+        display: flex;
     }
     header li {
-        padding: 10px 0; /* Ajusta o padding para itens de menu verticais */
-        width: 100%; /* Faz cada item do menu ocupar a largura total */
+        width: 100%;
         text-align: center;
+        border-top: 1px solid #34495e; /* Divisor entre itens no mobile */
     }
+    header li:first-child { /* Remove a borda do primeiro item */
+        border-top: none;
+    }
+    header li > a { /* Links diretos e .dropbtn no mobile */
+        padding: 12px 15px; /* Ajustar padding para mobile */
+        display: block; /* Ocupar toda a largura do li */
+    }
+
     .menu-toggle {
-        display: block; /* Mostra o botão do menu em telas pequenas */
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 20px;
     }
     .container {
-        width: 95%; /* Aumenta a largura do container em telas menores */
+        width: 95%;
+    }
+
+    /* Dropdown no mobile */
+    header .dropdown-content {
+        position: static; /* Remove o posicionamento absoluto */
+        display: none; /* Ainda controlado por JS com .show-dropdown */
+        width: 100%;
+        box-shadow: none;
+        background-color: #34495e; /* Fundo ligeiramente diferente para subitens */
+        border-top: none; /* Remove borda superior, já que é estático */
+        border-radius: 0; /* Sem cantos arredondados no mobile */
+    }
+    /* A classe .show-dropdown ainda fará display: block; */
+
+    header .dropdown-content a {
+        text-align: center;
+        padding: 10px 15px; /* Padding consistente */
+        border-top: 1px solid #4a6278; /* Divisor mais claro para subitens */
+        font-size: 15px; /* Tamanho de fonte ligeiramente ajustado */
+    }
+
+    header .dropbtn::after { /* Seta no mobile */
+        display: inline-block; /* Garante que apareça */
     }
 }

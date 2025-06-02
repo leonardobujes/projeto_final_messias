@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Fundamentos de Python{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
+            <nav>
+                <ul id="nav-links">
+                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
+
+                    <li class="dropdown {{ 'current' if page_name in ['selecao', 'repeticao', 'vetores_matrizes', 'funcoes_procedimentos', 'excecoes'] else '' }}">
+                        <a href="javascript:void(0);" class="dropbtn" onclick="toggleDropdown(this, event)">
+                            Conteúdo Programático
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="{{ url_for('selecao') }}" class="{{ 'current' if page_name == 'selecao' else '' }}">Seleção</a>
+                            <a href="{{ url_for('repeticao') }}" class="{{ 'current' if page_name == 'repeticao' else '' }}">Repetição</a>
+                            <a href="{{ url_for('vetores_matrizes') }}" class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}">Vetores/Matrizes</a>
+                            <a href="{{ url_for('funcoes_procedimentos') }}" class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}">Funções</a>
+                            <a href="{{ url_for('excecoes') }}" class="{{ 'current' if page_name == 'excecoes' else '' }}">Exceções</a>
+                        </div>
+                    </li>
+                    <li class="{{ 'current' if page_name == 'tirar_duvidas' else '' }}"><a href="{{ url_for('tirar_duvidas') }}">Tirar Dúvidas</a></li>
+                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
+                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>Fundamentos de Programação em Python &copy; 2025</p>
+    </footer>
+
+    <script>
+        console.log("Script base.html carregado.");
+
+        // Função para o menu principal responsivo (hambúrguer)
+        function toggleMenu() {
+            console.log("toggleMenu() chamada.");
+            const navLinks = document.getElementById('nav-links');
+            if (navLinks) {
+                navLinks.classList.toggle('active');
+                console.log("Menu principal (hambúrguer) alternado. Classes de navLinks:", navLinks.classList.toString());
+            } else {
+                console.error("Elemento #nav-links não encontrado para toggleMenu.");
+            }
+        }
+
+        // Função para alternar a exibição do dropdown específico
+        function toggleDropdown(element, event) {
+            console.log("toggleDropdown() chamada pelo elemento:", element);
+            event.stopPropagation(); // Impede que o evento de clique se propague para o window.onclick imediatamente
+            
+            const dropdownContent = element.nextElementSibling; 
+            console.log("Elemento .dropbtn clicado:", element);
+            console.log("Procurando .dropdown-content como próximo irmão. Encontrado:", dropdownContent);
+
+            if (!dropdownContent || !dropdownContent.classList.contains('dropdown-content')) {
+                console.error(".dropdown-content não encontrado como próximo irmão de .dropbtn ou não tem a classe esperada.");
+                return;
+            }
+            
+            const isCurrentlyOpen = dropdownContent.classList.contains('show-dropdown');
+            console.log("Dropdown está atualmente aberto?", isCurrentlyOpen);
+
+            // Primeiro, fecha TODOS os outros dropdowns que possam estar abertos
+            var allDropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < allDropdowns.length; i++) {
+                if (allDropdowns[i] !== dropdownContent && allDropdowns[i].classList.contains('show-dropdown')) {
+                    allDropdowns[i].classList.remove('show-dropdown');
+                    console.log("Fechando outro dropdown:", allDropdowns[i]);
+                }
+            }
+            
+            // Agora, alterna o estado do dropdown clicado
+            if (isCurrentlyOpen) {
+                dropdownContent.classList.remove('show-dropdown');
+                console.log("Fechando o dropdown clicado:", dropdownContent.classList.toString());
+            } else {
+                dropdownContent.classList.add('show-dropdown');
+                console.log("Abrindo o dropdown clicado:", dropdownContent.classList.toString());
+            }
+        }
+
+        // Fecha o dropdown se o usuário clicar fora dele
+        window.onclick = function(event) {
+            console.log("window.onclick - clique detectado em:", event.target);
+            // Verifica se o clique NÃO foi no botão do dropdown
+            // E também não foi DENTRO de um conteúdo de dropdown já aberto
+            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content.show-dropdown')) {
+                console.log("Clique fora de um .dropbtn e fora de um .dropdown-content.show-dropdown. Fechando todos os dropdowns.");
+                var dropdownsToClose = document.getElementsByClassName("dropdown-content");
+                for (var k = 0; k < dropdownsToClose.length; k++) {
+                    if (dropdownsToClose[k].classList.contains('show-dropdown')) {
+                        dropdownsToClose[k].classList.remove('show-dropdown');
+                        console.log("Fechando dropdown (window.onclick):", dropdownsToClose[k]);
+                    }
+                }
+            } else {
+                console.log("Clique foi num .dropbtn ou dentro de um .dropdown-content.show-dropdown. Nenhuma ação de fechar via window.onclick.");
+            }
+        }
+    </script>
+</body>
+</html>

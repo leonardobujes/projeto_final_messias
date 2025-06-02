@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fundamentos de Python - Início</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+
+{% block title %}Fundamentos de Python - Início{% endblock %}
+
+{% block head %}
     <style>
-        /* Estilos para o formulário de perguntas na página inicial (semelhante ao tirar_duvidas.html) */
+        /* Estilos específicos para o formulário de perguntas na página inicial */
         .home-qa-form {
             background-color: #f9f9f9;
             padding: 20px;
@@ -50,61 +48,27 @@
             background-color: #2980b9;
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
+{% endblock %}
+
+{% block content %}
+    <section id="inicio">
+        <h2>Bem-vindo ao Site sobre Fundamentos de Programação em Python!</h2>
+        <div class="intro-text">
+            <p>Este site é dedicado a explorar os conceitos básicos da programação utilizando a linguagem Python.</p>
+            <p>Navegue pelas seções utilizando o menu acima para aprender sobre estruturas de seleção, repetição, vetores, matrizes, funções, procedimentos, tratamento de exceções e consultar nosso glossário.</p>
+            <p>Cada seção apresentará o conceito fundamental, suas aplicações práticas e exemplos de código para ilustrar o uso.</p>
         </div>
-    </header>
 
-    <div class="container main-content">
-        <section id="inicio">
-            <h2>Bem-vindo ao Site sobre Fundamentos de Programação em Python!</h2>
-            <div class="intro-text">
-                <p>Este site é dedicado a explorar os conceitos básicos da programação utilizando a linguagem Python.</p>
-                <p>Navegue pelas seções utilizando o menu acima para aprender sobre estruturas de seleção, repetição, vetores, matrizes, funções, procedimentos, tratamento de exceções e consultar nosso glossário.</p>
-                <p>Cada seção apresentará o conceito fundamental, suas aplicações práticas e exemplos de código para ilustrar o uso.</p>
-            </div>
-
-            <div class="home-qa-form">
-                <h3>Tem alguma dúvida sobre programação Python ou Flask?</h3>
-                <p>Pergunte à nossa IA e veja a resposta na página "Tirar Dúvidas"!</p>
-                <form method="POST" action="{{ url_for('tirar_duvidas') }}">
-                    <div>
-                        <label for="pergunta_index">Sua Pergunta:</label>
-                        <textarea id="pergunta_index" name="pergunta" rows="4" required placeholder="Digite sua pergunta aqui..."></textarea>
-                    </div>
-                    <button type="submit">Enviar Pergunta</button>
-                </form>
-            </div>
-            </section>
-    </div>
-
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+        <div class="home-qa-form">
+            <h3>Tem alguma dúvida sobre programação Python ou Flask?</h3>
+            <p>Pergunte à nossa IA e veja a resposta na página "Tirar Dúvidas"!</p>
+            <form method="POST" action="{{ url_for('tirar_duvidas') }}">
+                <div>
+                    <label for="pergunta_index">Sua Pergunta:</label>
+                    <textarea id="pergunta_index" name="pergunta" rows="4" required placeholder="Digite sua pergunta aqui..."></textarea>
+                </div>
+                <button type="submit">Enviar Pergunta</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}
