@@ -2,17 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import csv
 import os
 
-# Valores padrão antes de tentar importar e configurar a API do Gemini
+
 GEMINI_AVAILABLE = False
 gemini_model = None
 
-# Tenta importar e configurar a API do Gemini
+
 try:
     import google.generativeai as genai
     GOOGLE_API_KEY = os.environ.get('GEMINI_API_KEY') 
     if not GOOGLE_API_KEY:
-        GOOGLE_API_KEY = 'AIzaSyBSiM1b-XHivW5_dWep0mokQnC3M-T0nmQ' # Chave de API (substitua ou use variáveis de ambiente)
-        print("AVISO: Chave API do Gemini está no código. Considere usar variáveis de ambiente para maior segurança.")
+        GOOGLE_API_KEY = 'AIzaSyBSiM1b-XHivW5_dWep0mokQnC3M-T0nmQ'
+        print("AVISO: Chave API do Gemini está no código. Considere usar variáveis de ambiente \\\para maior segurança.")
 
     if GOOGLE_API_KEY:
         genai.configure(api_key=GOOGLE_API_KEY)
@@ -30,7 +30,7 @@ except Exception as e:
 
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey_dev'  # Mude para uma chave segura em produção
+app.secret_key = 'supersecretkey_dev'  
 
 # Caminho para o arquivo CSV do glossário
 CSV_FILE = 'bd_glossario.csv'
