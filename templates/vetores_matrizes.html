@@ -1,42 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vetores e Matrizes - Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <div class="container main-content">
-        <section id="vetores-content">
-            <h2>Vetores e Matrizes</h2>
-            <h3>Conceito</h3>
-            <p>Em Python, "vetores" são comumente representados por listas (<code>list</code>), que são coleções ordenadas e mutáveis de itens. "Matrizes" (arrays bidimensionais) podem ser implementadas como listas de listas. Para operações numéricas mais avançadas, bibliotecas como NumPy são frequentemente usadas, oferecendo arrays mais eficientes.</p>
-            <h3>Aplicação</h3>
-            <p>Vetores são usados para armazenar coleções de dados, como uma lista de nomes, temperaturas, ou notas. Matrizes são úteis para representar dados tabulares, como planilhas, imagens (pixels), ou sistemas de equações lineares.</p>
-            <h3>Exemplo de Código</h3>
-            <pre><code class="language-python">
+{% block title %}Vetores e Matrizes - Python{% endblock %}
+
+{% block content %}
+<section id="vetores-content">
+    <h2>Vetores e Matrizes</h2>
+    <h3>Conceito</h3>
+    <p>Em Python, "vetores" são comumente representados por listas (<code>list</code>), que são coleções ordenadas e mutáveis de itens. "Matrizes" (arrays bidimensionais) podem ser implementadas como listas de listas. Para operações numéricas mais avançadas, bibliotecas como NumPy são frequentemente usadas, oferecendo arrays mais eficientes.</p>
+    <h3>Aplicação</h3>
+    <p>Vetores são usados para armazenar coleções de dados, como uma lista de nomes, temperaturas, ou notas. Matrizes são úteis para representar dados tabulares, como planilhas, imagens (pixels), ou sistemas de equações lineares.</p>
+    <h3>Exemplo de Código</h3>
+    <pre><code class="language-python">
 <span class="token comment"># Vetor (Lista em Python)</span>
 <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Vetor (Lista):"</span><span class="token punctuation">)</span>
 numeros <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">]</span>
@@ -69,18 +43,6 @@ matriz <span class="token operator">=</span> <span class="token punctuation">[</
 <span class="token comment"># [1, 2, 3]</span>
 <span class="token comment"># [4, 5, 6]</span>
 <span class="token comment"># [7, 8, 9]</span>
-            </code></pre>
-        </section>
-    </div>
-
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+    </code></pre>
+</section>
+{% endblock %}

@@ -1,42 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estruturas de Seleção - Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <div class="container main-content">
-        <section id="selecao-content">
-            <h2>Estruturas de Seleção</h2>
-            <h3>Conceito</h3>
-            <p>As estruturas de seleção (ou condicionais) permitem que um programa execute diferentes blocos de código dependendo se uma determinada condição é verdadeira ou falsa. As principais em Python são <code>if</code>, <code>elif</code> (else if) e <code>else</code>.</p>
-            <h3>Aplicação</h3>
-            <p>São usadas para tomar decisões no código. Por exemplo, verificar se um usuário tem permissão para acessar um recurso, determinar se um número é positivo ou negativo, ou reagir a diferentes entradas do usuário.</p>
-            <h3>Exemplo de Código</h3>
-            <pre><code class="language-python">
+{% block title %}Estruturas de Seleção - Python{% endblock %}
+
+{% block content %}
+<section id="selecao-content">
+    <h2>Estruturas de Seleção</h2>
+    <h3>Conceito</h3>
+    <p>As estruturas de seleção (ou condicionais) permitem que um programa execute diferentes blocos de código dependendo se uma determinada condição é verdadeira ou falsa. As principais em Python são <code>if</code>, <code>elif</code> (else if) e <code>else</code>.</p>
+    <h3>Aplicação</h3>
+    <p>São usadas para tomar decisões no código. Por exemplo, verificar se um usuário tem permissão para acessar um recurso, determinar se um número é positivo ou negativo, ou reagir a diferentes entradas do usuário.</p>
+    <h3>Exemplo de Código</h3>
+    <pre><code class="language-python">
 idade <span class="token operator">=</span> <span class="token number">18</span>
 permissao_pais <span class="token operator">=</span> <span class="token boolean">False</span>
 
@@ -48,18 +22,6 @@ permissao_pais <span class="token operator">=</span> <span class="token boolean"
     <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Não pode entrar na festa."</span><span class="token punctuation">)</span>
 
 <span class="token comment"># Saída esperada: Pode entrar na festa.</span>
-            </code></pre>
-        </section>
-    </div>
-
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+    </code></pre>
+</section>
+{% endblock %}

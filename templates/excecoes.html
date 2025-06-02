@@ -1,56 +1,30 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tratamento de Exceções - Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <div class="container main-content">
-        <section id="excecoes-content">
-            <h2>Tratamento de Exceções</h2>
-            <h3>Conceito</h3>
-            <p>Exceções são erros que ocorrem durante a execução de um programa. Python usa um mecanismo de tratamento de exceções com os blocos <code>try</code>, <code>except</code>, <code>else</code> e <code>finally</code> para lidar com esses erros de forma controlada, evitando que o programa pare abruptamente.</p>
-            <ul>
-                <li><strong><code>try</code>:</strong> O bloco de código que pode potencialmente levantar uma exceção é colocado dentro do bloco <code>try</code>.</li>
-                <li><strong><code>except</code>:</strong> Se uma exceção ocorrer no bloco <code>try</code>, o Python procura um bloco <code>except</code> correspondente que possa tratar essa exceção específica. Pode-se ter múltiplos blocos <code>except</code> para diferentes tipos de exceções.</li>
-                <li><strong><code>else</code>:</strong> (Opcional) O bloco <code>else</code> é executado se nenhuma exceção ocorrer no bloco <code>try</code>.</li>
-                <li><strong><code>finally</code>:</strong> (Opcional) O bloco <code>finally</code> é sempre executado, independentemente de uma exceção ter ocorrido ou não. É útil para liberar recursos, como fechar arquivos.</li>
-            </ul>
+{% block title %}Tratamento de Exceções - Python{% endblock %}
 
-            <h3>Aplicação</h3>
-            <p>O tratamento de exceções é crucial para criar programas robustos e confiáveis. Ele permite:</p>
-            <ul>
-                <li>Prevenir que o programa "quebre" inesperadamente.</li>
-                <li>Fornecer mensagens de erro amigáveis ao usuário.</li>
-                <li>Lidar com situações imprevistas, como entrada de dados inválida, arquivos não encontrados, problemas de rede, etc.</li>
-                <li>Garantir que operações críticas (como fechar conexões de banco de dados ou arquivos) sejam sempre realizadas, mesmo que ocorram erros.</li>
-            </ul>
+{% block content %}
+<section id="excecoes-content">
+    <h2>Tratamento de Exceções</h2>
+    <h3>Conceito</h3>
+    <p>Exceções são erros que ocorrem durante a execução de um programa. Python usa um mecanismo de tratamento de exceções com os blocos <code>try</code>, <code>except</code>, <code>else</code> e <code>finally</code> para lidar com esses erros de forma controlada, evitando que o programa pare abruptamente.</p>
+    <ul>
+        <li><strong><code>try</code>:</strong> O bloco de código que pode potencialmente levantar uma exceção é colocado dentro do bloco <code>try</code>.</li>
+        <li><strong><code>except</code>:</strong> Se uma exceção ocorrer no bloco <code>try</code>, o Python procura um bloco <code>except</code> correspondente que possa tratar essa exceção específica. Pode-se ter múltiplos blocos <code>except</code> para diferentes tipos de exceções.</li>
+        <li><strong><code>else</code>:</strong> (Opcional) O bloco <code>else</code> é executado se nenhuma exceção ocorrer no bloco <code>try</code>.</li>
+        <li><strong><code>finally</code>:</strong> (Opcional) O bloco <code>finally</code> é sempre executado, independentemente de uma exceção ter ocorrido ou não. É útil para liberar recursos, como fechar arquivos.</li>
+    </ul>
 
-            <h3>Exemplo de Código</h3>
-            <pre><code class="language-python">
+    <h3>Aplicação</h3>
+    <p>O tratamento de exceções é crucial para criar programas robustos e confiáveis. Ele permite:</p>
+    <ul>
+        <li>Prevenir que o programa "quebre" inesperadamente.</li>
+        <li>Fornecer mensagens de erro amigáveis ao usuário.</li>
+        <li>Lidar com situações imprevistas, como entrada de dados inválida, arquivos não encontrados, problemas de rede, etc.</li>
+        <li>Garantir que operações críticas (como fechar conexões de banco de dados ou arquivos) sejam sempre realizadas, mesmo que ocorram erros.</li>
+    </ul>
+
+    <h3>Exemplo de Código</h3>
+    <pre><code class="language-python">
 <span class="token comment"># Exemplo 1: Lidando com divisão por zero e entrada inválida</span>
 <span class="token keyword">try</span><span class="token punctuation">:</span>
     numerador <span class="token operator">=</span> <span class="token function">int</span><span class="token punctuation">(</span><span class="token function">input</span><span class="token punctuation">(</span><span class="token string">"Digite o numerador: "</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
@@ -74,18 +48,6 @@
     <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Erro: O arquivo não foi encontrado."</span><span class="token punctuation">)</span>
 <span class="token keyword">except</span> <span class="token builtin">Exception</span> <span class="token keyword">as</span> e<span class="token punctuation">:</span> <span class="token comment"># Captura genérica para outras exceções</span>
     <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">f"Ocorreu um erro inesperado: {e}"</span><span class="token punctuation">)</span>
-            </code></pre>
-        </section>
-    </div>
-
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+    </code></pre>
+</section>
+{% endblock %}

@@ -1,42 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funções e Procedimentos - Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight">Fundamentos</span><br>de Python</h1>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu">&#9776;</button>
-            <nav>
-                <ul id="nav-links">
-                    <li class="{{ 'current' if page_name == 'index' else '' }}"><a href="{{ url_for('index') }}">Início</a></li>
-                    <li class="{{ 'current' if page_name == 'selecao' else '' }}"><a href="{{ url_for('selecao') }}">Seleção</a></li>
-                    <li class="{{ 'current' if page_name == 'repeticao' else '' }}"><a href="{{ url_for('repeticao') }}">Repetição</a></li>
-                    <li class="{{ 'current' if page_name == 'vetores_matrizes' else '' }}"><a href="{{ url_for('vetores_matrizes') }}">Vetores/Matrizes</a></li>
-                    <li class="{{ 'current' if page_name == 'funcoes_procedimentos' else '' }}"><a href="{{ url_for('funcoes_procedimentos') }}">Funções</a></li>
-                    <li class="{{ 'current' if page_name == 'excecoes' else '' }}"><a href="{{ url_for('excecoes') }}">Exceções</a></li>
-                    <li class="{{ 'current' if page_name == 'glossario' else '' }}"><a href="{{ url_for('glossario_page') }}">Glossário</a></li>
-                    <li class="{{ 'current' if page_name == 'equipe' else '' }}"><a href="{{ url_for('equipe') }}">Equipe</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <div class="container main-content">
-        <section id="funcoes-content">
-            <h2>Funções e Procedimentos</h2>
-            <h3>Conceito</h3>
-            <p>Funções são blocos de código reutilizáveis que realizam uma tarefa específica. Elas podem receber dados de entrada (argumentos/parâmetros) e podem retornar um valor. Em Python, não há uma distinção sintática estrita entre "funções" (que retornam valor) e "procedimentos" (que não retornam valor explícito, retornando <code>None</code> por padrão). Ambos são definidos com a palavra-chave <code>def</code>.</p>
-            <h3>Aplicação</h3>
-            <p>São fundamentais para organizar o código, torná-lo mais modular, legível e reutilizável. Evitam a repetição de código e facilitam a manutenção e o teste de programas.</p>
-            <h3>Exemplo de Código</h3>
-            <pre><code class="language-python">
+{% block title %}Funções e Procedimentos - Python{% endblock %}
+
+{% block content %}
+<section id="funcoes-content">
+    <h2>Funções e Procedimentos</h2>
+    <h3>Conceito</h3>
+    <p>Funções são blocos de código reutilizáveis que realizam uma tarefa específica. Elas podem receber dados de entrada (argumentos/parâmetros) e podem retornar um valor. Em Python, não há uma distinção sintática estrita entre "funções" (que retornam valor) e "procedimentos" (que não retornam valor explícito, retornando <code>None</code> por padrão). Ambos são definidos com a palavra-chave <code>def</code>.</p>
+    <h3>Aplicação</h3>
+    <p>São fundamentais para organizar o código, torná-lo mais modular, legível e reutilizável. Evitam a repetição de código e facilitam a manutenção e o teste de programas.</p>
+    <h3>Exemplo de Código</h3>
+    <pre><code class="language-python">
 <span class="token comment"># Função que retorna um valor (tradicionalmente "função")</span>
 <span class="token keyword">def</span> <span class="token function">somar</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token triple-quoted-string string">"""Esta função retorna a soma de dois números."""</span>
@@ -56,18 +30,6 @@ resultado_soma <span class="token operator">=</span> <span class="token function
 <span class="token comment"># Saída esperada:</span>
 <span class="token comment"># O resultado da soma é: 8</span>
 <span class="token comment"># Olá, Mundo!</span>
-            </code></pre>
-        </section>
-    </div>
-
-    <footer>
-        <p>Fundamentos de Programação em Python &copy; 2025</p>
-    </footer>
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+    </code></pre>
+</section>
+{% endblock %}
